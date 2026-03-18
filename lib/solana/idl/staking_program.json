@@ -1,0 +1,189 @@
+{
+  "address": "ALnc8ohCRM5WMD4yksGS9XuZDzGCH3vW2VHUzn9Rb762",
+  "metadata": {
+    "name": "staking_program",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Retix Wallet / SolanaBlocks staking program IDL snapshot."
+  },
+  "instructions": [
+    {
+      "name": "initializeStakingConfig",
+      "discriminator": [78, 164, 6, 115, 206, 48, 168, 105],
+      "accounts": [
+        { "name": "config", "writable": true },
+        { "name": "admin", "writable": true, "signer": true },
+        { "name": "stakingMint" },
+        { "name": "rewardMint" },
+        { "name": "treasuryVault", "writable": true },
+        { "name": "rewardVault", "writable": true },
+        { "name": "systemProgram" }
+      ],
+      "args": [{ "name": "rewardRateBps", "type": "u64" }]
+    },
+    {
+      "name": "createLockPeriod",
+      "discriminator": [29, 235, 242, 125, 73, 249, 141, 205],
+      "accounts": [
+        { "name": "config", "writable": true },
+        { "name": "lockPeriod", "writable": true },
+        { "name": "admin", "writable": true, "signer": true },
+        { "name": "systemProgram" }
+      ],
+      "args": [
+        { "name": "label", "type": "string" },
+        { "name": "durationDays", "type": "u64" },
+        { "name": "apyBps", "type": "u64" },
+        { "name": "minAmount", "type": "u64" },
+        { "name": "earlyUnstakePenaltyBps", "type": "u64" },
+        { "name": "earlyUnstakeEnabled", "type": "bool" }
+      ]
+    },
+    {
+      "name": "updateLockPeriod",
+      "discriminator": [211, 76, 225, 13, 40, 108, 17, 104],
+      "accounts": [
+        { "name": "config" },
+        { "name": "lockPeriod", "writable": true },
+        { "name": "admin", "signer": true }
+      ],
+      "args": [
+        { "name": "apyBps", "type": "u64" },
+        { "name": "minAmount", "type": "u64" },
+        { "name": "earlyUnstakePenaltyBps", "type": "u64" },
+        { "name": "earlyUnstakeEnabled", "type": "bool" },
+        { "name": "enabled", "type": "bool" }
+      ]
+    },
+    {
+      "name": "stakeTokens",
+      "discriminator": [136, 126, 91, 162, 40, 131, 13, 127],
+      "accounts": [
+        { "name": "config", "writable": true },
+        { "name": "lockPeriod" },
+        { "name": "position", "writable": true },
+        { "name": "owner", "writable": true, "signer": true },
+        { "name": "userStakeAccount", "writable": true },
+        { "name": "treasuryVault", "writable": true },
+        { "name": "tokenProgram" },
+        { "name": "systemProgram" }
+      ],
+      "args": [
+        { "name": "amount", "type": "u64" },
+        { "name": "positionNonce", "type": "u64" }
+      ]
+    },
+    {
+      "name": "claimRewards",
+      "discriminator": [4, 144, 132, 71, 116, 23, 151, 80],
+      "accounts": [
+        { "name": "config" },
+        { "name": "lockPeriod" },
+        { "name": "position", "writable": true },
+        { "name": "owner", "writable": true, "signer": true },
+        { "name": "rewardVault", "writable": true },
+        { "name": "userRewardAccount", "writable": true },
+        { "name": "tokenProgram" }
+      ],
+      "args": []
+    },
+    {
+      "name": "unstakeTokens",
+      "discriminator": [58, 119, 215, 143, 203, 223, 32, 86],
+      "accounts": [
+        { "name": "config", "writable": true },
+        { "name": "lockPeriod" },
+        { "name": "position", "writable": true },
+        { "name": "owner", "writable": true, "signer": true },
+        { "name": "userStakeAccount", "writable": true },
+        { "name": "userRewardAccount", "writable": true },
+        { "name": "treasuryVault", "writable": true },
+        { "name": "rewardVault", "writable": true },
+        { "name": "tokenProgram" }
+      ],
+      "args": []
+    },
+    {
+      "name": "pauseStaking",
+      "discriminator": [245, 191, 35, 58, 88, 250, 229, 60],
+      "accounts": [
+        { "name": "config", "writable": true },
+        { "name": "admin", "signer": true }
+      ],
+      "args": []
+    },
+    {
+      "name": "resumeStaking",
+      "discriminator": [31, 200, 175, 23, 211, 22, 63, 155],
+      "accounts": [
+        { "name": "config", "writable": true },
+        { "name": "admin", "signer": true }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    { "name": "stakingConfig", "discriminator": [45, 134, 252, 82, 37, 57, 84, 25] },
+    { "name": "lockPeriod", "discriminator": [107, 249, 43, 83, 174, 152, 77, 167] },
+    { "name": "stakePosition", "discriminator": [78, 165, 30, 111, 171, 125, 11, 220] }
+  ],
+  "types": [
+    {
+      "name": "stakingConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "admin", "type": "pubkey" },
+          { "name": "stakingMint", "type": "pubkey" },
+          { "name": "rewardMint", "type": "pubkey" },
+          { "name": "treasuryVault", "type": "pubkey" },
+          { "name": "rewardVault", "type": "pubkey" },
+          { "name": "rewardRateBps", "type": "u64" },
+          { "name": "stakingEnabled", "type": "bool" },
+          { "name": "totalStaked", "type": "u64" },
+          { "name": "numberOfLockPeriods", "type": "u64" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "lockPeriod",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "config", "type": "pubkey" },
+          { "name": "label", "type": "string" },
+          { "name": "durationDays", "type": "u64" },
+          { "name": "apyBps", "type": "u64" },
+          { "name": "minAmount", "type": "u64" },
+          { "name": "earlyUnstakePenaltyBps", "type": "u64" },
+          { "name": "earlyUnstakeEnabled", "type": "bool" },
+          { "name": "enabled", "type": "bool" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "stakePosition",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "owner", "type": "pubkey" },
+          { "name": "config", "type": "pubkey" },
+          { "name": "lockPeriod", "type": "pubkey" },
+          { "name": "stakeMint", "type": "pubkey" },
+          { "name": "stakedAmount", "type": "u64" },
+          { "name": "lockDurationDays", "type": "u64" },
+          { "name": "startTime", "type": "i64" },
+          { "name": "endTime", "type": "i64" },
+          { "name": "rewardDebt", "type": "u64" },
+          { "name": "claimedRewards", "type": "u64" },
+          { "name": "unstaked", "type": "bool" },
+          { "name": "positionNonce", "type": "u64" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    }
+  ]
+}
+

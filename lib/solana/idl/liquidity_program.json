@@ -1,0 +1,149 @@
+{
+  "address": "9bGvKgjuKiuXrr6C4yGyzn9yGn4GSoGUdBEmMjssUzCu",
+  "metadata": {
+    "name": "liquidity_program",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Retix Wallet / SolanaBlocks liquidity program IDL snapshot."
+  },
+  "instructions": [
+    {
+      "name": "initializePool",
+      "discriminator": [95, 180, 10, 172, 84, 174, 232, 40],
+      "accounts": [
+        { "name": "pool", "writable": true },
+        { "name": "admin", "writable": true, "signer": true },
+        { "name": "tokenAMint" },
+        { "name": "tokenBMint" },
+        { "name": "reserveAVault", "writable": true },
+        { "name": "reserveBVault", "writable": true },
+        { "name": "lpMint", "writable": true },
+        { "name": "systemProgram" }
+      ],
+      "args": [{ "name": "feeRateBps", "type": "u64" }]
+    },
+    {
+      "name": "addLiquidity",
+      "discriminator": [181, 157, 89, 67, 143, 182, 52, 72],
+      "accounts": [
+        { "name": "pool", "writable": true },
+        { "name": "position", "writable": true },
+        { "name": "owner", "writable": true, "signer": true },
+        { "name": "userTokenA", "writable": true },
+        { "name": "userTokenB", "writable": true },
+        { "name": "userLpToken", "writable": true },
+        { "name": "reserveAVault", "writable": true },
+        { "name": "reserveBVault", "writable": true },
+        { "name": "lpMint", "writable": true },
+        { "name": "tokenProgram" },
+        { "name": "systemProgram" }
+      ],
+      "args": [
+        { "name": "amountA", "type": "u64" },
+        { "name": "amountB", "type": "u64" },
+        { "name": "minLpOut", "type": "u64" }
+      ]
+    },
+    {
+      "name": "removeLiquidity",
+      "discriminator": [80, 85, 209, 72, 24, 206, 177, 108],
+      "accounts": [
+        { "name": "pool", "writable": true },
+        { "name": "position", "writable": true },
+        { "name": "owner", "writable": true, "signer": true },
+        { "name": "userTokenA", "writable": true },
+        { "name": "userTokenB", "writable": true },
+        { "name": "userLpToken", "writable": true },
+        { "name": "reserveAVault", "writable": true },
+        { "name": "reserveBVault", "writable": true },
+        { "name": "lpMint", "writable": true },
+        { "name": "tokenProgram" }
+      ],
+      "args": [{ "name": "lpAmount", "type": "u64" }]
+    },
+    {
+      "name": "swapExactInput",
+      "discriminator": [194, 203, 142, 150, 137, 110, 81, 94],
+      "accounts": [
+        { "name": "pool", "writable": true },
+        { "name": "owner", "writable": true, "signer": true },
+        { "name": "userSourceToken", "writable": true },
+        { "name": "userDestinationToken", "writable": true },
+        { "name": "reserveAVault", "writable": true },
+        { "name": "reserveBVault", "writable": true },
+        { "name": "tokenProgram" }
+      ],
+      "args": [
+        { "name": "amountIn", "type": "u64" },
+        { "name": "minAmountOut", "type": "u64" },
+        { "name": "aToB", "type": "bool" }
+      ]
+    },
+    {
+      "name": "setPoolFee",
+      "discriminator": [158, 232, 175, 7, 15, 179, 209, 252],
+      "accounts": [
+        { "name": "pool", "writable": true },
+        { "name": "admin", "signer": true }
+      ],
+      "args": [{ "name": "feeRateBps", "type": "u64" }]
+    },
+    {
+      "name": "pausePool",
+      "discriminator": [160, 15, 12, 189, 160, 0, 243, 245],
+      "accounts": [
+        { "name": "pool", "writable": true },
+        { "name": "admin", "signer": true }
+      ],
+      "args": []
+    },
+    {
+      "name": "resumePool",
+      "discriminator": [52, 182, 28, 44, 146, 165, 190, 119],
+      "accounts": [
+        { "name": "pool", "writable": true },
+        { "name": "admin", "signer": true }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    { "name": "poolState", "discriminator": [247, 237, 227, 245, 215, 195, 222, 70] },
+    { "name": "userLiquidityPosition", "discriminator": [220, 156, 226, 70, 90, 4, 201, 39] }
+  ],
+  "types": [
+    {
+      "name": "poolState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "tokenAMint", "type": "pubkey" },
+          { "name": "tokenBMint", "type": "pubkey" },
+          { "name": "reserveAVault", "type": "pubkey" },
+          { "name": "reserveBVault", "type": "pubkey" },
+          { "name": "lpMint", "type": "pubkey" },
+          { "name": "feeRateBps", "type": "u64" },
+          { "name": "admin", "type": "pubkey" },
+          { "name": "totalLiquidity", "type": "u64" },
+          { "name": "paused", "type": "bool" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "userLiquidityPosition",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "owner", "type": "pubkey" },
+          { "name": "pool", "type": "pubkey" },
+          { "name": "lpTokenAmount", "type": "u64" },
+          { "name": "depositedTokenAAmount", "type": "u64" },
+          { "name": "depositedTokenBAmount", "type": "u64" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    }
+  ]
+}
+

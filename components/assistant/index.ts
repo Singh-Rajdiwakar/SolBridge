@@ -1,0 +1,11 @@
+export { AssistantHeader } from "@/components/assistant/AssistantHeader";
+export { AssistantSummaryCard } from "@/components/assistant/AssistantSummaryCard";
+export { PortfolioInsightsPanel } from "@/components/assistant/PortfolioInsightsPanel";
+export { YieldSuggestionsPanel } from "@/components/assistant/YieldSuggestionsPanel";
+export { RiskWarningsPanel } from "@/components/assistant/RiskWarningsPanel";
+export { RebalancingSuggestionsPanel } from "@/components/assistant/RebalancingSuggestionsPanel";
+export { OpportunityHighlightsPanel } from "@/components/assistant/OpportunityHighlightsPanel";
+export { InsightExplanationCard } from "@/components/assistant/InsightExplanationCard";
+export { AssistantTimeline } from "@/components/assistant/AssistantTimeline";
+export { AssistantActionLinks } from "@/components/assistant/AssistantActionLinks";
+export { AssistantHub } from "@/components/assistant/AssistantHub";

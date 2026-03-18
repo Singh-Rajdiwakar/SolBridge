@@ -1,0 +1,170 @@
+{
+  "address": "7e4gvpizQZ12dGWHFXekKrrX8ByktwvV3t48HnG9xBNz",
+  "metadata": {
+    "name": "governance_program",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Retix Wallet / SolanaBlocks governance program IDL snapshot."
+  },
+  "instructions": [
+    {
+      "name": "initializeGovernance",
+      "discriminator": [171, 87, 101, 237, 27, 107, 201, 57],
+      "accounts": [
+        { "name": "config", "writable": true },
+        { "name": "admin", "writable": true, "signer": true },
+        { "name": "governanceMint" },
+        { "name": "systemProgram" }
+      ],
+      "args": [
+        { "name": "quorumBps", "type": "u64" },
+        { "name": "votingDurationSeconds", "type": "i64" },
+        { "name": "proposalThreshold", "type": "u64" }
+      ]
+    },
+    {
+      "name": "updateGovernanceConfig",
+      "discriminator": [140, 45, 181, 17, 77, 67, 157, 248],
+      "accounts": [
+        { "name": "config", "writable": true },
+        { "name": "admin", "signer": true }
+      ],
+      "args": [
+        { "name": "quorumBps", "type": "u64" },
+        { "name": "votingDurationSeconds", "type": "i64" },
+        { "name": "proposalThreshold", "type": "u64" }
+      ]
+    },
+    {
+      "name": "createProposal",
+      "discriminator": [132, 116, 68, 174, 216, 160, 198, 22],
+      "accounts": [
+        { "name": "config" },
+        { "name": "proposal", "writable": true },
+        { "name": "proposer", "writable": true, "signer": true },
+        { "name": "proposerGovernanceAccount" },
+        { "name": "systemProgram" }
+      ],
+      "args": [
+        { "name": "proposalId", "type": "u64" },
+        { "name": "title", "type": "string" },
+        { "name": "metadataUri", "type": "string" },
+        { "name": "startTime", "type": "i64" },
+        { "name": "endTime", "type": "i64" }
+      ]
+    },
+    {
+      "name": "castVote",
+      "discriminator": [20, 212, 15, 189, 69, 180, 69, 151],
+      "accounts": [
+        { "name": "config" },
+        { "name": "proposal", "writable": true },
+        { "name": "voteRecord", "writable": true },
+        { "name": "voter", "writable": true, "signer": true },
+        { "name": "voterGovernanceAccount" },
+        { "name": "tokenProgram" },
+        { "name": "systemProgram" }
+      ],
+      "args": [{ "name": "voteType", "type": { "defined": { "name": "voteType" } } }]
+    },
+    {
+      "name": "finalizeProposal",
+      "discriminator": [23, 68, 51, 167, 109, 173, 187, 164],
+      "accounts": [
+        { "name": "config" },
+        { "name": "proposal", "writable": true },
+        { "name": "governanceMint" }
+      ],
+      "args": []
+    },
+    {
+      "name": "cancelProposal",
+      "discriminator": [106, 74, 128, 146, 19, 65, 39, 23],
+      "accounts": [
+        { "name": "config" },
+        { "name": "proposal", "writable": true },
+        { "name": "authority", "signer": true }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    { "name": "governanceConfig", "discriminator": [81, 63, 124, 107, 210, 100, 145, 70] },
+    { "name": "proposal", "discriminator": [26, 94, 189, 187, 116, 136, 53, 33] },
+    { "name": "voteRecord", "discriminator": [112, 9, 123, 165, 234, 9, 157, 167] }
+  ],
+  "types": [
+    {
+      "name": "governanceConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "admin", "type": "pubkey" },
+          { "name": "governanceMint", "type": "pubkey" },
+          { "name": "quorumBps", "type": "u64" },
+          { "name": "votingDurationSeconds", "type": "i64" },
+          { "name": "proposalThreshold", "type": "u64" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "proposal",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "config", "type": "pubkey" },
+          { "name": "proposalId", "type": "u64" },
+          { "name": "proposer", "type": "pubkey" },
+          { "name": "title", "type": "string" },
+          { "name": "metadataUri", "type": "string" },
+          { "name": "startTime", "type": "i64" },
+          { "name": "endTime", "type": "i64" },
+          { "name": "votesYes", "type": "u64" },
+          { "name": "votesNo", "type": "u64" },
+          { "name": "votesAbstain", "type": "u64" },
+          { "name": "status", "type": { "defined": { "name": "proposalStatus" } } },
+          { "name": "executed", "type": "bool" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "voteRecord",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "proposal", "type": "pubkey" },
+          { "name": "voter", "type": "pubkey" },
+          { "name": "voteType", "type": { "defined": { "name": "voteType" } } },
+          { "name": "votingPower", "type": "u64" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "proposalStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          { "name": "Pending" },
+          { "name": "Active" },
+          { "name": "Passed" },
+          { "name": "Rejected" },
+          { "name": "Cancelled" }
+        ]
+      }
+    },
+    {
+      "name": "voteType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          { "name": "Yes" },
+          { "name": "No" },
+          { "name": "Abstain" }
+        ]
+      }
+    }
+  ]
+}

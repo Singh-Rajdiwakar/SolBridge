@@ -1,0 +1,75 @@
+node_modules
+.next
+out
+dist
+coverage
+.env
+.env.local
+server/.env
+server/node_modules
+server/.mongodb-memory-server
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+*.log
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Dependencies
+node_modules/
+server/node_modules/
+
+# Next.js
+.next/
+out/
+build/
+
+# Rust/Anchor/Solana
+target/
+**/*.rs.bk
+**/*.pdb
+.anchor/
+test-ledger/
+programs/target/
+deploy/
+
+# Cargo
+Cargo.lock
+*.orig
+
+# Solana keypairs & wallets (IMPORTANT - secrets!)
+**/*-keypair.json
+wallet.json
+id.json
+*.key
+
+# Logs
+*.log
+next-run.log
+next-run.err.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# Misc
+.vercel
+*.tsbuildinfo
+next-env.d.ts
+dist/
+coverage/

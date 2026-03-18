@@ -1,0 +1,172 @@
+{
+  "address": "HPvxx9GvKzBqBPDSrxALtnwnEhY52mnV9aNM6XPisuCh",
+  "metadata": {
+    "name": "lending_program",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Retix Wallet / SolanaBlocks lending program IDL snapshot."
+  },
+  "instructions": [
+    {
+      "name": "initializeLendingMarket",
+      "discriminator": [138, 174, 14, 19, 121, 176, 216, 39],
+      "accounts": [
+        { "name": "market", "writable": true },
+        { "name": "admin", "writable": true, "signer": true },
+        { "name": "collateralMint" },
+        { "name": "borrowMint" },
+        { "name": "collateralVault", "writable": true },
+        { "name": "liquidityVault", "writable": true },
+        { "name": "systemProgram" }
+      ],
+      "args": [
+        { "name": "collateralFactorBps", "type": "u64" },
+        { "name": "liquidationThresholdBps", "type": "u64" },
+        { "name": "borrowInterestBps", "type": "u64" },
+        { "name": "protocolFeeBps", "type": "u64" }
+      ]
+    },
+    {
+      "name": "depositCollateral",
+      "discriminator": [156, 131, 142, 116, 146, 247, 162, 120],
+      "accounts": [
+        { "name": "market", "writable": true },
+        { "name": "position", "writable": true },
+        { "name": "owner", "writable": true, "signer": true },
+        { "name": "userCollateralAccount", "writable": true },
+        { "name": "collateralVault", "writable": true },
+        { "name": "tokenProgram" },
+        { "name": "systemProgram" }
+      ],
+      "args": [{ "name": "amount", "type": "u64" }]
+    },
+    {
+      "name": "borrowTokens",
+      "discriminator": [98, 145, 18, 209, 129, 98, 215, 25],
+      "accounts": [
+        { "name": "market", "writable": true },
+        { "name": "position", "writable": true },
+        { "name": "owner", "writable": true, "signer": true },
+        { "name": "userBorrowAccount", "writable": true },
+        { "name": "liquidityVault", "writable": true },
+        { "name": "tokenProgram" }
+      ],
+      "args": [{ "name": "amount", "type": "u64" }]
+    },
+    {
+      "name": "repayTokens",
+      "discriminator": [221, 56, 255, 138, 154, 25, 146, 166],
+      "accounts": [
+        { "name": "market", "writable": true },
+        { "name": "position", "writable": true },
+        { "name": "owner", "writable": true, "signer": true },
+        { "name": "userBorrowAccount", "writable": true },
+        { "name": "liquidityVault", "writable": true },
+        { "name": "tokenProgram" }
+      ],
+      "args": [{ "name": "amount", "type": "u64" }]
+    },
+    {
+      "name": "withdrawCollateral",
+      "discriminator": [115, 135, 168, 106, 139, 214, 138, 150],
+      "accounts": [
+        { "name": "market", "writable": true },
+        { "name": "position", "writable": true },
+        { "name": "owner", "writable": true, "signer": true },
+        { "name": "userCollateralAccount", "writable": true },
+        { "name": "collateralVault", "writable": true },
+        { "name": "tokenProgram" }
+      ],
+      "args": [{ "name": "amount", "type": "u64" }]
+    },
+    {
+      "name": "liquidatePosition",
+      "discriminator": [187, 74, 229, 149, 102, 81, 221, 68],
+      "accounts": [
+        { "name": "market", "writable": true },
+        { "name": "liquidator", "writable": true, "signer": true },
+        { "name": "owner", "writable": true },
+        { "name": "position", "writable": true },
+        { "name": "liquidatorRepayAccount", "writable": true },
+        { "name": "liquidatorCollateralAccount", "writable": true },
+        { "name": "liquidityVault", "writable": true },
+        { "name": "collateralVault", "writable": true },
+        { "name": "tokenProgram" }
+      ],
+      "args": [{ "name": "repayAmount", "type": "u64" }]
+    },
+    {
+      "name": "updateMarketParams",
+      "discriminator": [70, 117, 202, 191, 205, 174, 92, 82],
+      "accounts": [
+        { "name": "market", "writable": true },
+        { "name": "admin", "signer": true }
+      ],
+      "args": [
+        { "name": "collateralFactorBps", "type": "u64" },
+        { "name": "liquidationThresholdBps", "type": "u64" },
+        { "name": "borrowInterestBps", "type": "u64" },
+        { "name": "protocolFeeBps", "type": "u64" },
+        { "name": "paused", "type": "bool" }
+      ]
+    },
+    {
+      "name": "pauseMarket",
+      "discriminator": [216, 238, 4, 164, 65, 11, 162, 91],
+      "accounts": [
+        { "name": "market", "writable": true },
+        { "name": "admin", "signer": true }
+      ],
+      "args": []
+    },
+    {
+      "name": "resumeMarket",
+      "discriminator": [198, 120, 104, 87, 44, 103, 108, 143],
+      "accounts": [
+        { "name": "market", "writable": true },
+        { "name": "admin", "signer": true }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    { "name": "lendingMarketConfig", "discriminator": [101, 168, 149, 11, 177, 171, 55, 151] },
+    { "name": "userLendingPosition", "discriminator": [53, 100, 133, 56, 232, 226, 68, 123] }
+  ],
+  "types": [
+    {
+      "name": "lendingMarketConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "admin", "type": "pubkey" },
+          { "name": "collateralMint", "type": "pubkey" },
+          { "name": "borrowMint", "type": "pubkey" },
+          { "name": "collateralVault", "type": "pubkey" },
+          { "name": "liquidityVault", "type": "pubkey" },
+          { "name": "collateralFactorBps", "type": "u64" },
+          { "name": "liquidationThresholdBps", "type": "u64" },
+          { "name": "borrowInterestBps", "type": "u64" },
+          { "name": "protocolFeeBps", "type": "u64" },
+          { "name": "paused", "type": "bool" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "userLendingPosition",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "owner", "type": "pubkey" },
+          { "name": "market", "type": "pubkey" },
+          { "name": "collateralDeposited", "type": "u64" },
+          { "name": "borrowedAmount", "type": "u64" },
+          { "name": "interestDebt", "type": "u64" },
+          { "name": "healthFactorSnapshot", "type": "u64" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    }
+  ]
+}

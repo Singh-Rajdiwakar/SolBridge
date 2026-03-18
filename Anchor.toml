@@ -1,0 +1,28 @@
+[toolchain]
+anchor_version = "0.30.1"
+
+[features]
+seeds = true
+skip-lint = false
+
+[programs.localnet]
+staking_program = "ALnc8ohCRM5WMD4yksGS9XuZDzGCH3vW2VHUzn9Rb762"
+governance_program = "7e4gvpizQZ12dGWHFXekKrrX8ByktwvV3t48HnG9xBNz"
+liquidity_program = "9bGvKgjuKiuXrr6C4yGyzn9yGn4GSoGUdBEmMjssUzCu"
+lending_program = "HPvxx9GvKzBqBPDSrxALtnwnEhY52mnV9aNM6XPisuCh"
+
+[programs.devnet]
+staking_program = "ALnc8ohCRM5WMD4yksGS9XuZDzGCH3vW2VHUzn9Rb762"
+governance_program = "7e4gvpizQZ12dGWHFXekKrrX8ByktwvV3t48HnG9xBNz"
+liquidity_program = "9bGvKgjuKiuXrr6C4yGyzn9yGn4GSoGUdBEmMjssUzCu"
+lending_program = "HPvxx9GvKzBqBPDSrxALtnwnEhY52mnV9aNM6XPisuCh"
+
+[provider]
+cluster = "Devnet"
+wallet = "~/.config/solana/id.json"
+
+[registry]
+url = "https://api.apr.dev"
+
+[scripts]
+test = "yarn ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
